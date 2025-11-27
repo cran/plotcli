@@ -12,9 +12,9 @@
 
 <meta name="author" content="Claas Heuer" />
 
-<meta name="date" content="2024-04-23" />
+<meta name="date" content="2025-11-27" />
 
-<title>Vignette For ggplotcli</title>
+<title>Introduction to ggplotcli</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -50,8 +50,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -338,81 +339,308 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Vignette For ggplotcli</h1>
+<h1 class="title toc-ignore">Introduction to ggplotcli</h1>
 <h4 class="author">Claas Heuer</h4>
-<h4 class="date">2024-04-23</h4>
+<h4 class="date">2025-11-27</h4>
 
 
 
-<div id="using-ggplotcli-with-ggplot2" class="section level2">
-<h2>Using <code>ggplotcli</code> with <code>ggplot2</code></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(plotcli)  </span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Loading required package: R6</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; plotcli loaded. Use plotcli_options() to set global options.</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>mtcars<span class="sc">$</span>cf <span class="ot">=</span> <span class="fu">as.character</span>(mtcars<span class="sc">$</span>cyl)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>mtcars_ggplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg, <span class="at">y =</span> wt)) <span class="sc">+</span>  </span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  </span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mtcars Dataset with Regression Line&quot;</span>,  </span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Miles per Gallon&quot;</span>,  </span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Weight&quot;</span>)  </span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  </span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>pp <span class="ot">=</span> <span class="fu">ggplotcli</span>(mtcars_ggplot, <span class="at">braille =</span> <span class="cn">FALSE</span>)  </span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; `geom_smooth()` using formula = &#39;y ~ x&#39;</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>pp<span class="sc">$</span><span class="fu">print_plot</span>()  </span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt;                                                                                                         </span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt;                                        Mtcars Dataset with Regression Line                              </span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt;                 ┌────────────────────────────────────────────────────────────────────────────────┐      </span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt;             5.4 │*              *                                                                │      </span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt;                 │*                                                                               │      </span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt;                 │                                                                                │      </span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt;                 │                                                                                │      </span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt;                 │                                                                                │      </span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt;                 │                                                                                │      </span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt;                 │                                                                                │      </span></span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt;                 │*                                                                               │      </span></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt;                 │ ***                                                                            │      </span></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt;                 │    **                                                                          │      </span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt;             4.4 │      ***                                                                       │      </span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt;                 │         **                                                                     │      </span></span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt;                 │           ***      *                                                           │      </span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt;                 │              **                                                                │      </span></span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt;                 │          *     ***           *                                                 │      </span></span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt;                 │                *  **  *                                                        │      </span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt;                 │                     ***                                                        │      </span></span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt;                 │             *  **      **                                                      │      </span></span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="co">#&gt;                 │                *        **** *                                                 │   _1  </span></span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt;   Weight    3.3 │                             **                                                 │   _2  </span></span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt;                 │                               ***   *                                          │      </span></span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt;                 │                  *               **      *     *                               │      </span></span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt;                 │                                    ***                                         │      </span></span>
-<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt;                 │                                       ***                                      │      </span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt;                 │                                    **    ***                                   │      </span></span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt;                 │                                *            **                                 │      </span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="co">#&gt;                 │                                    *          ***                              │      </span></span>
-<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="co">#&gt;                 │                                                  **                            │      </span></span>
-<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co">#&gt;                 │                                      *             **                          │      </span></span>
-<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co">#&gt;             2.3 │                                          *           ***                       │      </span></span>
-<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="co">#&gt;                 │                                                         **                *    │      </span></span>
-<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co">#&gt;                 │                                                     *     ***                  │      </span></span>
-<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co">#&gt;                 │                                                              **                │      </span></span>
-<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="co">#&gt;                 │                                                          *     ***             │      </span></span>
-<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="co">#&gt;                 │                                                                   **          *│      </span></span>
-<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="co">#&gt;                 │                                                                     ***        │      </span></span>
-<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a><span class="co">#&gt;                 │                                                                    *   **      │      </span></span>
-<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="co">#&gt;                 │                                                                    *     ***   │      </span></span>
-<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="co">#&gt;                 │                                                                             ** │      </span></span>
-<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="co">#&gt;             1.3 │                                                                               *│      </span></span>
-<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="co">#&gt;                 └────────────────────────────────────────────────────────────────────────────────┘      </span></span>
-<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="co">#&gt;                                                                                                         </span></span>
-<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="co">#&gt;                  10.4               16.3               22.1                28.0              33.9       </span></span>
-<span id="cb1-65"><a href="#cb1-65" tabindex="-1"></a><span class="co">#&gt;                                                                                                         </span></span>
-<span id="cb1-66"><a href="#cb1-66" tabindex="-1"></a><span class="co">#&gt;                                                 Miles per Gallon                                        </span></span>
-<span id="cb1-67"><a href="#cb1-67" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <code>ggplotcli()</code> function converts any ggplot2 plot to a
+terminal-based visualization using Unicode Braille characters and ANSI
+colors.</p>
+</div>
+<div id="basic-usage" class="section level2">
+<h2>Basic Usage</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(plotcli)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Create a ggplot with points and smooth line</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>mtcars_ggplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg, <span class="at">y =</span> wt)) <span class="sc">+</span>  </span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  </span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Mtcars Dataset with Regression Line&quot;</span>,  </span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Miles per Gallon&quot;</span>,  </span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Weight&quot;</span>)  </span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># Render in terminal</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">ggplotcli</span>(mtcars_ggplot, <span class="at">width =</span> <span class="dv">60</span>, <span class="at">height =</span> <span class="dv">15</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;            Mtcars Dataset with Regression Line               </span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;          ⢠        ⡀                                          </span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt;    5.0                                                       </span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; W        ⠐⠢⢄⣀⡀                                               </span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; e  4.0       ⠈⠉⡑⠒⠤⠤⣀ ⠐     ⡀                                 </span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; i                ⠄⠠⡡⠉⠉⠒⠣⣤⢄⣀⡀                                 </span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; g  3.0              ⠂      ⠉⠉⠒⠤⠴⣀⡀⠂  ⠂                       </span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; h                           ⠁ ⠨⢈ ⠈⠉⠑⠒⠤⢄⣀                     </span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; t  2.0                            ⠁     ⠩⠉⠒⠢⠤⢄⡀      ⠂       </span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt;                                            ⠁  ⠈⠉⠑⡖⠤⠤⣀⣀  ⠁    </span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt;    1.0                                                ⠉⠑⠂    </span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt;                                                              </span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt;        10.0     15.0      20.0      25.0      30.0      35.0 </span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt;                         Miles per Gallon                     </span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="color-aesthetics" class="section level2">
+<h2>Color Aesthetics</h2>
+<p>ggplotcli supports color grouping just like ggplot2:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Colored by group</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;MPG vs Weight by Cylinders&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Cylinders&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">60</span>, <span class="at">height =</span> <span class="dv">14</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;                 MPG vs Weight by Cylinders                       </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;   35.0       ⠄                                                   </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;          ⢀⢀      ⠈                                               </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;   30.0                                                      Cyl  </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; m             ⠈  ⠄                                          * 4  </span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; p 25.0             ⡀         ⡈                              * 6  </span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; g 20.0              ⠈ ⠐ ⢐⠐   ⠐                              * 8  </span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;                                 ⠸   ⡀⠈                           </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;   15.0                       ⠂  ⠠⠠⡄ ⠠   ⠁              ⡀         </span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;                                      ⠂                           </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt;   10.0                                                ⠂ ⠂        </span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;               2.0         3.0         4.0         5.0            </span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt;                                wt                                </span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Iris dataset with species colors</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Sepal.Width, <span class="at">color =</span> Species)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Iris: Sepal Dimensions by Species&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">60</span>, <span class="at">height =</span> <span class="dv">12</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;             Iris: Sepal Dimensions by Species                             </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; S  4.5                     ⠐                                              </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; e  4.0               ⠂ ⢀ ⠁   ⠄                              Species       </span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; p            ⡀   ⡀⢀⠨  ⠠⠠   ⠈                   ⡀     ⠈  ⠁   * setosa      </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; a  3.5    ⢀  ⡂⢀ ⠂ ⢸⠸ ⠃ ⠐ ⠁    ⡀⠐  ⠂⠰⢀ ⡀ ⠠ ⡀⡀⢀  ⡀            * versicolor  </span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; l  3.0   ⠠⢠  ⠂  ⠆⠆⠠    ⠠  ⡄⢠  ⠄⢠⢠ ⡀⢀⢐ ⠄⢠⠰ ⠄⠂  ⠄⠄⢀   ⠠⠠      * virginica   </span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; .  2.5               ⠂   ⡀⠃⢈ ⡃ ⠐⢈ ⠁⠘⠘ ⠁   ⠁      ⠈   ⢈                    </span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; W           ⠄    ⠃⠠⠈     ⠇⠁⠈   ⢀  ⡀⠨    ⠈                                 </span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; i  2.0            ⠠                                                       </span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;                  5.0          6.0          7.0          8.0               </span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;                           Sepal.Length                                    </span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="density-plots-with-colors" class="section level2">
+<h2>Density Plots with Colors</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg, <span class="at">color =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;MPG Density by Cylinders&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">60</span>, <span class="at">height =</span> <span class="dv">12</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;                  MPG Density by Cylinders                        </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; d 0.25            ⣠⢦                                             </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; e 0.20           ⢠⠃⠈⣇      ⢀⡠⠞⠙⣆                            fac  </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; n                ⡞  ⠸⡀  ⢠⠚⠉⠁   ⠸⡄                           * 4  </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; s 0.15          ⢠⠃   ⢣ ⢠⠃       ⢧                           * 6  </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; i 0.10         ⢀⡎    ⠈⢆⡎        ⠘⡄                          * 8  </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; t 0.05   ⠘⢦   ⢀⡞      ⡼⠳⠤⠖⠒⢦ ⢀⣠⠤⠖⢳⠒⠒⠒⠒⠒⠦⠤⠤⣄⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀            </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; y         ⠈⢣⡀⣠⠞      ⡰⠁ ⢀⣀⡤⠔⢻⡉   ⠈⢧                 ⠈⠉⠉⠓⠂        </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;      0   ⠠⠤⠤⠭⠥⠤⠤⠤⠴⠶⠒⠚⠓⠒⠉⠉    ⠙⠒⠦⠤⠤⠬⠷⠶⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠄        </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;        10.0     15.0      20.0      25.0      30.0      35.0     </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;                               mpg                                </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="faceting" class="section level2">
+<h2>Faceting</h2>
+<div id="facet_wrap" class="section level3">
+<h3>facet_wrap</h3>
+<p>Split plots by a categorical variable:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>cyl) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;MPG vs Weight by Cylinders&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">70</span>, <span class="at">height =</span> <span class="dv">14</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;                      MPG vs Weight by Cylinders                        </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;                4                    6                    8             </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;         ⠠                                                              </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;        ⠤  ⠁                                                            </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;   30.0   ⡀                                                             </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;          ⠈    ⠠                                                        </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;           ⠐⠄⢀ ⠐                  ⡀⡀⢀                                   </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;   20.0                           ⠐  ⢐                    ⠠ ⠐           </span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;                                                         ⠠⢀⡀⡁⠐          </span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;                                                           ⠁⠐      ⠈    </span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;   10.0                                                            ⠒    </span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;         2.0      4.0         2.0      4.0         2.0      4.0         </span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;                                                                        </span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="facet_grid" class="section level3">
+<h3>facet_grid</h3>
+<p>Create a grid of plots by two variables:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">facet_grid</span>(am <span class="sc">~</span> cyl) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;MPG: Transmission (rows) x Cylinders (cols)&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">70</span>, <span class="at">height =</span> <span class="dv">18</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;             MPG: Transmission (rows) x Cylinders (cols)                </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;               0, 4                 0, 6                 0, 8           </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;                                                                        </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;   30.0                                                                 </span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;               ⢐                                                        </span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;   20.0     ⠁                       ⠈⢠                    ⢀ ⠠           </span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;                                                          ⠠⠆⢅⠐     ⠠    </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;   10.0                                                            ⠤    </span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;               1, 4                 1, 6                 1, 8           </span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;         ⠐ ⠄                                                            </span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;   30.0 ⠉ ⡀                                                             </span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;          ⠈⢀                                                            </span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;   20.0      ⠈                    ⠢⠂                                    </span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;                                                         ⠐ ⠄            </span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;   10.0                                                                 </span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;         2.0      4.0         2.0      4.0         2.0      4.0         </span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt;                                                                        </span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+</div>
+<div id="combining-multiple-geoms" class="section level2">
+<h2>Combining Multiple Geoms</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Histogram with density overlay</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">10</span>, <span class="at">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Histogram with Density Overlay&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">60</span>, <span class="at">height =</span> <span class="dv">12</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;               Histogram with Density Overlay                 </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; d                 ⢰⣶⣶⣶⣶⣶                                     </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; e 0.08            ⢸⣿⣿⣿⣿⣿⣶⣶⣶⣶⣶⣶⣶⣶⣶                            </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; n 0.06            ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿                            </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; s               ⢀⡴⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠓⢦⡀                         </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; i 0.04        ⣀⠴⠋ ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⣤⣭⣶⣤⡀        ⣤⣤⣤⣤⣤         </span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; t 0.02   ⢠⣤⣤⣤⣾⣥⣤⣤⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣶⣦⣤⣄⣀⣀⣀⣀⣿⣿⣿⣿⣿         </span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; y        ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇    ⣿⣿⣿⣿⣿⣽⣶⣤⣤⡄    </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;      0   ⠸⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠧⠤⠤⠤⠤⠿⠿⠿⠿⠿⠿⠿⠿⠿⠇    </span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;          10.0     15.0     20.0    25.0     30.0     35.0    </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;                               mpg                            </span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="canvas-types" class="section level2">
+<h2>Canvas Types</h2>
+<p>Three rendering modes are available:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># High resolution with Braille (default)</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">ggplotcli</span>(p <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Braille Canvas (default)&quot;</span>), </span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>          <span class="at">width =</span> <span class="dv">50</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">canvas_type =</span> <span class="st">&quot;braille&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;             Braille Canvas (default)               </span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;   35.0      ⠂  ⠠                                   </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; m 30.0   ⠁⠁  ⡀                                     </span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; p 25.0         ⠁⢀       ⢀⠂                         </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; g 20.0            ⠁⠐ ⠅⠂  ⠈ ⢠   ⠠                   </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;   15.0                   ⠂ ⠠⠢ ⠈⢄ ⠐            ⠄    </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;   10.0                                       ⠄⠠    </span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;              2.0      3.0       4.0      5.0       </span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;                           wt                       </span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co"># Block characters (medium resolution)</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="fu">ggplotcli</span>(p <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Block Canvas&quot;</span>), </span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>          <span class="at">width =</span> <span class="dv">50</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">canvas_type =</span> <span class="st">&quot;block&quot;</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;                   Block Canvas                     </span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;   35.0      ▀  ▄                                   </span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; m 30.0   ▀▀  ▄                                     </span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; p 25.0         ▀ ▄      ▄▄                         </span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; g 20.0            ▀▀ █▀  ▀ ▄   ▄                   </span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt;   15.0                   ▀ ▀█ ▀▄ ▀           ▄     </span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt;   10.0                                      ▄ ▄    </span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt;              2.0      3.0       4.0      5.0       </span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt;                           wt                       </span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co"># ASCII for maximum compatibility</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="fu">ggplotcli</span>(p <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;ASCII Canvas&quot;</span>), </span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>          <span class="at">width =</span> <span class="dv">50</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">canvas_type =</span> <span class="st">&quot;ascii&quot;</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt;                   ASCII Canvas                     </span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt;   35.0      *                                      </span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; m 30.0   **    *                                   </span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; p 25.0       * * *      **                         </span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; g 20.0            ** **  * *  **                   </span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt;   15.0                   * ** ** *           *     </span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt;   10.0                                      * *    </span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt;              2.0      3.0       4.0      5.0       </span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt;                           wt                       </span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="styling-options" class="section level2">
+<h2>Styling Options</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> qsec)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;cyan&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;With Border and Grid&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># Add border and grid</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">ggplotcli</span>(p, <span class="at">width =</span> <span class="dv">55</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">border =</span> <span class="cn">TRUE</span>, <span class="at">grid =</span> <span class="st">&quot;major&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;                 With Border and Grid                    </span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;        ⡏⠉⢹⠉⠉⠉⠉⠉⠉⡉⡏⠉⠉⠉⠉⠉⠉⡏⠉⠉⠉⠉⠉⠉⡏⠉⠉⠉⠉⠉⠉⢹⠉⠉⠉⠉⠉⠉⢹⠉⠉⠉⠉⠉⠉⠉⢹  </span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; q 22.0 ⡗⠒⢺⠒⠒⠒⠒⠒⠒⠒⡗⠒⠒⠒⠒⠒⠒⡗⠒⠒⠒⠒⠒⠒⡗⠒⠒⠒⠒⠒⠒⢺⠒⠒⠒⠒⠒⠒⢺⠒⠒⠒⠒⠒⠒⠒⢺  </span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; s 20.0 ⡗⠒⢺⠒⠒⡖⠒⠒⠒⠒⡟⠲⠒⡒⠒⠒⠒⡗⠒⠒⠒⠒⠒⠒⡗⠒⠒⠒⠒⠒⠒⢺⠒⠒⠒⠒⠒⠒⢺⠒⠒⠒⠒⠒⠒⠒⢺  </span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; e 18.0 ⡗⠒⢺⠓⠒⠒⠒⠒⠒⠓⡗⢓⠒⠓⠒⠒⠒⡗⠒⠒⢒⠲⠒⠒⡗⠒⠒⠒⠲⠒⠒⢺⠒⠒⠒⠒⠒⠒⢺⠒⠒⠒⠒⠒⠒⠒⢺  </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; c 16.0 ⡗⠒⢺⠒⠒⠒⠒⠒⠚⠒⡗⠚⠒⠒⠒⠒⠒⡗⠒⠒⠲⠒⠒⠒⡗⠒⠒⠒⠒⠒⠲⢺⠒⠒⠒⠒⠒⠒⢺⠒⠒⠒⠒⠒⠒⠒⢺  </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;        ⣇⣀⣸⣀⣀⣀⣀⣀⣀⣀⣇⣀⣀⣀⣀⣀⣀⣇⣀⣀⣀⣀⣀⣀⣇⣀⣀⣀⣀⣀⣀⣸⣀⣈⣀⣀⣀⣀⣸⣀⣀⣀⣀⣈⣀⣀⣸  </span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;        50.0    100     150    200    250     300        </span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt;                             hp                          </span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="theme-auto-detection" class="section level2">
+<h2>Theme Auto-Detection</h2>
+<p>ggplotcli automatically respects ggplot2 themes:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;magenta&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># theme_bw adds grid and border</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">ggplotcli</span>(p <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;theme_bw() - Grid + Border&quot;</span>), </span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>          <span class="at">width =</span> <span class="dv">55</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">border =</span> <span class="st">&quot;auto&quot;</span>, <span class="at">grid =</span> <span class="st">&quot;auto&quot;</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;              theme_bw() - Grid + Border                 </span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;   35.0 ⣏⣉⣉⣏⣉⣉⣉⣉⣏⣉⣉⣉⣉⣏⣉⣉⣉⣉⣹⣉⣉⣉⣉⣹⣉⣉⣉⣉⣹⣉⣉⣉⣉⣉⣏⣉⣉⣉⣉⣏⣉⣉⣉⣉⣹⣉⣹  </span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; m 30.0 ⣯⣭⣭⣯⣯⣭⣭⣭⣯⣭⣭⣭⣭⣯⣭⣭⣭⣭⣽⣭⣭⣭⣭⣽⣭⣭⣭⣭⣽⣭⣭⣭⣭⣭⣯⣭⣭⣭⣭⣯⣭⣭⣭⣭⣽⣭⣽  </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; p 25.0 ⡷⠶⠶⡷⠶⠶⠶⠾⡷⠶⠶⢶⠶⡷⠶⠶⠶⠶⢾⠶⡶⠶⠶⢾⠶⠶⠶⠶⢾⠶⠶⠶⠶⠶⡷⠶⠶⠶⠶⡷⠶⠶⠶⠶⢾⠶⢾  </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; g 20.0 ⣟⣛⣛⣟⣛⣛⣛⣛⣟⣛⣛⣛⣛⣟⣛⣛⣛⣛⣻⣛⣛⣛⣛⣿⣛⣛⣛⣟⣻⣛⣛⣛⣛⣛⣟⣛⣛⣛⣛⣟⣛⣛⣛⣛⣻⣛⣻  </span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt;   15.0 ⣟⣛⣛⣟⣛⣛⣛⣛⣟⣛⣛⣛⣛⣟⣛⣛⣛⣛⣻⣛⣛⣛⣛⣻⣛⣛⣛⣟⣻⣛⣛⣛⣛⣛⣟⣛⣛⣛⣛⣟⣛⣛⣛⣛⣻⣛⣻  </span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;   10.0 ⣏⣉⣉⣏⣉⣉⣉⣉⣏⣉⣉⣉⣉⣏⣉⣉⣉⣉⣹⣉⣉⣉⣉⣹⣉⣉⣉⣉⣹⣉⣉⣉⣉⣉⣏⣉⣉⣉⣉⣏⣉⣉⣉⣉⣹⣉⣹  </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;              2.0        3.0        4.0       5.0        </span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;                             wt                          </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co"># theme_classic has border but no grid</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="fu">ggplotcli</span>(p <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;theme_classic() - Border Only&quot;</span>), </span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>          <span class="at">width =</span> <span class="dv">55</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">border =</span> <span class="st">&quot;auto&quot;</span>, <span class="at">grid =</span> <span class="st">&quot;auto&quot;</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;             theme_classic() - Border Only               </span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;   35.0 ⡏⠉⠉⠉⠉⠉⢉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⢹  </span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; m 30.0 ⡇  ⠂⠂     ⠁                                   ⢸  </span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; p 25.0 ⡇      ⠈ ⠐ ⢀        ⡠                         ⢸  </span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt; g 20.0 ⡇            ⠁⠈ ⠃⠁  ⠈  ⡄  ⡀⠄                  ⢸  </span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt;   15.0 ⡇                   ⠁  ⠂⠑ ⠐⠄ ⠈            ⠐   ⢸  </span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt;   10.0 ⣇⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣈⣀⣈⣀⣀⣸  </span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt;              2.0        3.0        4.0       5.0        </span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt;                             wt                          </span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+<div id="learn-more" class="section level2">
+<h2>Learn More</h2>
+<p>See the full vignette “ggplotcli: Universal ggplot2 to Terminal
+Plotting” for more examples including all supported geoms, advanced
+styling, and more.</p>
 </div>
 
 
